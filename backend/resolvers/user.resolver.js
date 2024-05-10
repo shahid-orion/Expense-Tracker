@@ -1,26 +1,6 @@
-import { users } from "../dummyData/data.js"
+import { users } from '../dummyData/data.js'
 
 const userResolver = {
-  Query: {
-    // users: async () => {
-    //     return await User.find()
-    // },
-    // authUser: async (_, __, { user }) => {
-    //     if (!user) {
-    //         throw new AuthenticationError('Unauthenticated')
-    //     }
-    //     return user
-    // },
-    // user: async (_, { userId }) => {
-    //     return await User.findById(userId)
-    // },
-    users: () => {
-      return users
-    },
-    user: (_, { userId }) => {
-      return users.find((user) => user._id === userId)
-    },
-  },
   Mutation: {
     // signUp: async (_, { input }) => {
     //   const user = new User(input)
@@ -51,6 +31,26 @@ const userResolver = {
     //   res.clearCookie("token")
     //   return { message: "Logged out successfully" }
     // },
+  },
+  Query: {
+    // users: async () => {
+    //     return await User.find()
+    // },
+    // authUser: async (_, __, { user }) => {
+    //     if (!user) {
+    //         throw new AuthenticationError('Unauthenticated')
+    //     }
+    //     return user
+    // },
+    // user: async (_, { userId }) => {
+    //     return await User.findById(userId)
+    // },
+    users: (_, __, { req, res }) => {
+      return users
+    },
+    user: (_, { userId }) => {
+      return users.find((user) => user._id === userId)
+    },
   },
 }
 
