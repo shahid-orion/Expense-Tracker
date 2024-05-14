@@ -2,6 +2,9 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import RadioButton from '../components/RadioButton.jsx'
 import InputField from '../components/InputField.jsx'
+import { useMutation } from '@apollo/client'
+import { SIGN_UP } from '../graphql/mutations/user.mutation.js'
+import toast from 'react-hot-toast'
 
 const SignUpPage = () => {
   const [signUpData, setSignUpData] = useState({
@@ -10,6 +13,31 @@ const SignUpPage = () => {
     password: '',
     gender: '',
   })
+
+  const [signUp, { loading }] = useMutation(SIGN_UP, {
+    refetchQueries: ['GetAuthenticatedUser'],
+    onCompleted: (data) => {
+      console.log(data)
+    },
+  })
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    // console.log(signUpData)
+    if (!signUpData.name || !signUpData.username || !signUpData.password) {
+      return toast.error('Please fill in all fields')
+    }
+    try {
+      await signUp({
+        variables: {
+          input: signUpData,
+        },
+      })
+    } catch (error) {
+      console.error('Error in sign up: ', error)
+      toast.error(error.message)
+    }
+  }
 
   const handleChange = (e) => {
     const { name, value, type } = e.target
@@ -25,11 +53,6 @@ const SignUpPage = () => {
         [name]: value,
       }))
     }
-  }
-
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    console.log(signUpData)
   }
 
   return (
@@ -90,8 +113,9 @@ const SignUpPage = () => {
                 <button
                   type="submit"
                   className="w-full bg-black text-white p-2 rounded-md hover:bg-gray-800 focus:outline-none focus:bg-black  focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                  disabled={loading}
                 >
-                  Sign Up
+                  {loading ? 'Loading...' : 'Sign Up'}
                 </button>
               </div>
             </form>

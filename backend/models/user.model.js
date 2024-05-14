@@ -7,7 +7,7 @@ const userSchema = new mongoose.Schema(
       required: true,
       unique: true,
     },
-    email: {
+    name: {
       type: String,
       required: true,
     },
@@ -24,7 +24,7 @@ const userSchema = new mongoose.Schema(
       enum: ['male', 'female'],
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 )
 
 const User = mongoose.model('User', userSchema)
