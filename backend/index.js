@@ -88,6 +88,14 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'frontend/dist', 'index.html'))
 })
 
+// render.com --> we will deploy frontend and backend both
+// npm run build will build frontend app and it will be optimised version of our app
+app.use(express.static(path.join(__dirname, 'frontend/dist')))
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'frontend/dist', 'index.html'))
+})
+
 // Modified server startup
 await new Promise((resolve) => httpServer.listen({ port: 4000 }, resolve))
 await connectDB()
