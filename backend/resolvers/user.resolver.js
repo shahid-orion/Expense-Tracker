@@ -80,25 +80,26 @@ const userResolver = {
     //     return users
     // },
     authUser: async (_, __, context) => {
-      // try {
-      //   const user = await context.getUser()
-      //   return user
-      // } catch (error) {
-      //   console.error('Error in authUser: ', error)
-      //   throw new Error(error.message || 'Internal server error')
-      // }
       try {
-        if (!context.user) {
-          console.log('No user found in context', context) // Log to see if this is the issue
-          return null
-        }
-        console.log('User found:', context.user)
-        const user = await User.findById(context.user._id) // Confirm user ID is available
+        const user = await context.getUser()
+
         return user
       } catch (error) {
-        console.error('Error in authUser:', error)
+        console.error('Error in authUser: ', error)
         throw new Error(error.message || 'Internal server error')
       }
+      // try {
+      //   if (!context.user) {
+      //     console.log('No user found in context', context) // Log to see if this is the issue
+      //     return null
+      //   }
+      //   console.log('User found:', context.user)
+      //   const user = await User.findById(context.user._id) // Confirm user ID is available
+      //   return user
+      // } catch (error) {
+      //   console.error('Error in authUser:', error)
+      //   throw new Error(error.message || 'Internal server error')
+      // }
     },
     user: async (_, { userId }) => {
       try {

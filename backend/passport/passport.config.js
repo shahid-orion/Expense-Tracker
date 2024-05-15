@@ -49,12 +49,12 @@ import { GraphQLLocalStrategy } from 'graphql-passport'
 
 export const configurePassport = () => {
   passport.serializeUser((user, done) => {
-    console.log(`Serializing user: ${user.username}`)
+    // console.log(`Serializing user: ${user.username}`)
     done(null, user.id) // Ensures only the user ID is stored in the session.
   })
 
   passport.deserializeUser(async (id, done) => {
-    console.log(`Deserializing user with ID: ${id}`)
+    // console.log(`Deserializing user with ID: ${id}`)
     try {
       const user = await User.findById(id)
       if (!user) {

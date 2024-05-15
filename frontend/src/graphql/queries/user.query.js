@@ -7,6 +7,7 @@ export const GET_AUTHENTICATED_USER = gql`
       username
       name
       profilePicture
+      gender
     }
   }
 `
