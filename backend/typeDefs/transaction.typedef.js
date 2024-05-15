@@ -8,11 +8,11 @@ type Transaction{
     amount: Float!
     location: String
     date: String!
+    user: User!
 }
 type Query{
     transactions: [Transaction!]
     transaction(transactionId: ID!): Transaction
-    # add category statistics query later
     categoryStatistics: [CategoryStatistics!]
 }
 type Mutation{

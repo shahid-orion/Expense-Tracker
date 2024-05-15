@@ -3,6 +3,7 @@ import User from '../models/user.model.js'
 
 import bcrypt from 'bcryptjs' // Make sure to import bcryptjs
 import { UserInputError } from 'apollo-server-express' // Importing the error class to throw specific GraphQL errors
+import Transaction from '../models/transaction.model.js'
 
 const userResolver = {
   Mutation: {
@@ -115,18 +116,19 @@ const userResolver = {
       }
     },
   },
-  // Add User<-->transaction relationship
-  // User: {
-  //   transactions: async (parent) => {
-  //     try {
-  //       const transactions = await Transaction.find({ userId: parent._id })
-  //       return transactions
-  //     } catch (error) {
-  //       console.log('Error in user.transactions resolver: ', error)
-  //       throw new Error(error.message || 'Internal server error')
-  //     }
-  //   },
-  // },
+  // Add User<-->transaction relationship: Getting the transactions of the user
+  User: {
+    transactions: async (parent) => {
+      // params--> (parent,args,context)
+      try {
+        const transactions = await Transaction.find({ userId: parent._id })
+        return transactions
+      } catch (error) {
+        console.log('Error in user.transactions resolver: ', error)
+        throw new Error(error.message || 'Internal server error')
+      }
+    },
+  },
 }
 
 export default userResolver

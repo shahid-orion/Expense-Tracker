@@ -24,7 +24,7 @@ const Card = ({ transaction, authUser }) => {
   const cardClass = categoryColorMap[category]
 
   const [deleteTransaction, { loading }] = useMutation(DELETE_TRANSACTION, {
-    refetchQueries: ['GetTransactions'],
+    refetchQueries: ['GetTransactions', 'GetTransactionStatistics'],
   })
 
   // Capitalize the first letter of the description, category, and paymentType
@@ -89,7 +89,7 @@ const Card = ({ transaction, authUser }) => {
           {/* <p className="text-xs text-black font-bold">21 Sep, 2001</p> */}
           <p className="text-xs text-black font-bold">{formattedDate}</p>
           <img
-            src={'https://tecdn.b-cdn.net/img/new/avatars/2.webp'}
+            src={authUser?.profilePicture}
             className="h-8 w-8 border rounded-full"
             alt=""
           />
